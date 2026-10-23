@@ -1,0 +1,14 @@
+{
+  "name": "research-tool",
+  "owner": {
+    "name": "jaytran-prog"
+  },
+  "plugins": [
+    {
+      "name": "consult",
+      "source": "./",
+      "description": "An AI consulting firm for SMB owners: competitor teardowns, market entry checks, pricing reviews and tool/vendor shortlists, fact-checked before delivery.",
+      "version": "0.1.0"
+    }
+  ]
+}

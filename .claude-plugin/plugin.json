@@ -1,0 +1,12 @@
+{
+  "name": "consult",
+  "version": "0.1.0",
+  "description": "An AI consulting firm for SMB owners: diagnostic intake, productized deliverables, parallel analyst research, critic fact-check and a partner-written decision memo.",
+  "author": {
+    "name": "jaytran-prog"
+  },
+  "homepage": "https://github.com/jaytran-prog/Research-Tool",
+  "repository": "https://github.com/jaytran-prog/Research-Tool",
+  "license": "MIT",
+  "keywords": ["research", "consulting", "competitor-analysis", "market-research", "smb", "multi-agent"]
+}

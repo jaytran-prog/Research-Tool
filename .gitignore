@@ -1,0 +1,4 @@
+# Client engagements contain real business details — never commit them
+engagements/
+
+.DS_Store
