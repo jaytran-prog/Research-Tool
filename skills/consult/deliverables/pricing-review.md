@@ -7,7 +7,7 @@
 1. What you sell and your current prices/packages (paste a link or list).
 2. Rough costs or margin per sale, if you are willing to share.
 3. Are you losing deals on price, struggling with margin, or both?
-4. Who is your typical customer and what alternatives do they compare you with?
+4. **(required)** Who is your typical customer, and which 3–5 alternatives do they compare you with? Give a link for each (website, pricing page, Google Maps, Facebook or delivery-app page) and any prices you already know.
 5. Memo language?
 
 ## Workstreams

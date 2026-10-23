@@ -73,7 +73,19 @@ Copy a file in `skills/consult/deliverables/`, change its questions, workstreams
 
 ## Status
 
-Early prototype (v0.1.0). Not yet validated on real engagements. See the assumptions in [docs/ideas/ai-consulting-firm.md](docs/ideas/ai-consulting-firm.md).
+Early prototype (v0.2.0). See the assumptions in [docs/ideas/ai-consulting-firm.md](docs/ideas/ai-consulting-firm.md).
+
+**First test (Oct 2026):** a Competitor Teardown for a fictional specialty coffee shop in Ho Chi Minh City, researched against real competitors.
+- The critic caught real errors without any being planted: a branch in the wrong district, two different shops with the same name merged into one, prices from 2016–2021 presented as current, and a competitor website that looked compromised.
+- The weak point is data access, not the agents. Small local markets have little current public data, and the best sources (Facebook, Google Maps reviews, delivery apps) are hard for agents to reach.
+
+**Changes in v0.2.0 based on that test:**
+- Quick mode requires competitor links, and every engagement asks the owner for a 5-minute evidence pack (links, menu photos, known prices).
+- Budgets are 1.5× for local markets, failed page loads don't count against the budget, and the revision round gets a full budget instead of half.
+- Analysts prefer sources from the last 24 months, check each branch separately, never merge similarly named businesses, and drop sites that look compromised.
+- The critic always produces "safe to use", "must not be used" and "open gaps" lists, and the partner writes only from those lists.
+- Memos have a hard limit of 900 words before Sources, and the engagement lead checks every memo before it's delivered.
+- The skill falls back to general-purpose agents when the plugin's own agents aren't available.
 
 ## License
 

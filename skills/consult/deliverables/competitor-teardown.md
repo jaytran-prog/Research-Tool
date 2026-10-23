@@ -4,18 +4,19 @@
 **Best for:** owners losing customers to rivals, or planning positioning.
 
 ## Quick-form questions
-1. Your business: what you sell, where, and to whom?
-2. Which 3–5 competitors do you lose customers to? (names or websites; "not sure" is fine)
+1. **(required)** Your business: what you sell, where (exact area or address), and to whom? A link to your own Google Maps or Facebook page helps.
+2. **(required)** Which 3–5 competitors do you lose customers to? For each, give **a link**: Google Maps listing, Facebook/Instagram page, website, or delivery-app page — and the specific branch if it's a chain. "Not sure" is allowed for at most 2 of them.
 3. What do customers say when they choose a competitor?
 4. What decision will this inform? (positioning, pricing, a new offer, marketing)
-5. Memo language?
+5. Memo language, and should research include local-language sources?
+6. Optional: any competitor prices you know, or photos/screenshots of their menus or price lists.
 
 ## Workstreams (one analyst each)
 | id | Questions | Suggested sources | Budget |
 |----|-----------|-------------------|--------|
-| `competitor-map` | Who are the 3–6 most relevant competitors (including ones the owner didn't name)? Size signals, location, years active. | Google Maps, directories, marketplaces, LinkedIn, local news | 6 searches · 6 fetches |
-| `offer-pricing` | What does each sell, at what price, with what packages, guarantees, and promotions? | Competitor websites, pricing pages, marketplace listings, menus | 6 searches · 8 fetches |
-| `customer-voice` | What do customers praise and complain about for each competitor? Recurring themes, with counts where possible. | Google reviews, Trustpilot, G2/Capterra, app stores, Facebook groups, Reddit | 6 searches · 8 fetches |
+| `competitor-map` | Confirm each owner-named competitor's location (start from the owner's links), then find the 2–3 strongest competitors **near the client** that the owner didn't name. Size signals, location, years active. | Owner links first, then Google Maps, directories, marketplaces, LinkedIn, recent local guides | 6 searches · 6 fetches |
+| `offer-pricing` | What does each sell, at what **current** price (last 24 months), with what packages, guarantees, and promotions? | Owner links and evidence pack, delivery apps (GrabFood/ShopeeFood/Uber Eats), official menus, recent dated posts; add the current year to price searches | 6 searches · 8 fetches |
+| `customer-voice` | What do customers praise and complain about for each competitor in the **last 24 months**? Recurring themes with counts, n and date range. Test the owner's stated reasons explicitly. | Google reviews (also via aggregators like Wanderlog), Foody/Yelp-style local sites, TripAdvisor, app stores, Reddit | 6 searches · 8 fetches |
 | `go-to-market` | How does each one acquire customers? Channels, messaging, ads, partnerships, social activity. | Websites, social profiles, Meta Ad Library, job posts | 5 searches · 6 fetches |
 
 ## Critic checklist
@@ -23,8 +24,12 @@
 - Review themes are backed by several reviews, not one quote.
 - No competitor is described with features from a different company.
 - Flag competitors where data is too thin to compare fairly.
+- Branches and locations are checked per branch: a chain's district or city is not assumed from one listing, and two shops with similar names are not merged without proof.
+- The owner's stated reasons for losing customers are each marked supported, contradicted, or untested.
 
 ## Memo template
+Hard limit: **900 words before Sources.** Competitor table max 6 rows; cells are short phrases, not sentences.
+
 ```markdown
 # Competitor Teardown — <business>
 **Recommendation:** <the one move to make, in 1–2 sentences>
