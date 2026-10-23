@@ -20,7 +20,7 @@
 ## Critic checklist
 - Benchmarks compare like-for-like offers (same scope, size, location).
 - Every price is dated; promotional prices are labelled as such.
-- Owner-provided costs are labelled as owner-provided.
+- Client-provided costs are labelled as client-provided.
 - The recommendation's revenue impact is shown as a scenario with stated assumptions, not a forecast.
 
 ## Memo template
@@ -43,5 +43,8 @@
 <e.g., new customers first, test on one product>
 
 ## What would change this answer
+## Close the gaps yourself
+<checklist for gaps only you can close: who to ask, what to visit, photograph or measure>
+
 ## Sources
 ```

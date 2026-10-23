@@ -9,7 +9,8 @@
 3. What do customers say when they choose a competitor?
 4. What decision will this inform? (positioning, pricing, a new offer, marketing)
 5. Memo language, and should research include local-language sources?
-6. Optional: any competitor prices you know, or photos/screenshots of their menus or price lists.
+6. **(required)** Competitor prices: photos or screenshots of each competitor's menu or price list, or the prices you know (with roughly when you saw them). "I don't know" is accepted — but current prices are rarely online for small and local businesses, so without this the memo can't compare prices and will give you a field check to do instead.
+7. Your exact address or area (for business with a physical location), so distance to competitors can be measured.
 
 ## Workstreams (one analyst each)
 | id | Questions | Suggested sources | Budget |
@@ -49,6 +50,9 @@ Hard limit: **900 words before Sources.** Competitor table max 6 rows; cells are
 
 ## Next steps this month
 <3 concrete actions>
+
+## Close the gaps yourself
+<checklist for gaps only you can close: who to ask, what to visit, photograph or measure>
 
 ## Sources
 [1] …

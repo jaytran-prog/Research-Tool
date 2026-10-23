@@ -43,5 +43,8 @@
 
 ## What would change this answer
 ## Next steps this month
+## Close the gaps yourself
+<checklist for gaps only you can close: who to ask, what to visit, photograph or measure>
+
 ## Sources
 ```

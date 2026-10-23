@@ -13,9 +13,9 @@
 ## Workstreams
 | id | Questions | Suggested sources | Budget |
 |----|-----------|-------------------|--------|
-| `options-scan` | Which 4–6 options fit an SMB of this size, in this market (local availability, language, payment methods)? | Vendor sites, G2/Capterra categories, local review sites, communities | 6 searches · 6 fetches |
+| `options-scan` | Which 4–6 options fit the client (team size, budget, market, local availability, language, payment methods)? | Vendor sites, G2/Capterra categories, local review sites, communities | 6 searches · 6 fetches |
 | `fit-and-cost` | For each option: must-have features, integrations, setup effort, and total cost for year one (plans, per-user fees, transaction fees, setup). | Pricing pages, documentation, integration directories | 5 searches · 10 fetches |
-| `real-world-experience` | What do SMB users report: support quality, outages, hidden costs, lock-in, migration pain? | G2/Capterra reviews, Reddit, Facebook groups, app stores | 6 searches · 8 fetches |
+| `real-world-experience` | What do users of a similar size report: support quality, outages, hidden costs, lock-in, migration pain? | G2/Capterra reviews, Reddit, Facebook groups, app stores | 6 searches · 8 fetches |
 
 ## Critic checklist
 - Year-one cost includes every fee type found, with the plan that fits the owner's team size.
@@ -38,5 +38,8 @@
 <a trial checklist with pass/fail criteria>
 
 ## What would change this answer
+## Close the gaps yourself
+<checklist for gaps only you can close: who to ask, what to visit, photograph or measure>
+
 ## Sources
 ```

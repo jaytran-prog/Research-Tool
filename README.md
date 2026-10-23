@@ -1,8 +1,12 @@
-# Research Tool — an AI consulting firm for SMBs
+# Research Tool — an AI research firm you can run in Claude Code
 
-A Claude Code plugin that works like a small consulting firm. It interviews the business owner, picks a fixed-scope deliverable, sends analyst agents to research in parallel, has a critic fact-check every source, and has a partner write a short decision memo.
+A Claude Code plugin that works like a small consulting firm, on **any topic**. It sharpens your question first, plans the research, sends analyst agents out in parallel, has a critic fact-check every source, and has a partner write a short, answer-first memo that is honest about what it doesn't know.
 
-Unlike a generic deep-research tool, it **questions your question first** and **won't put a number in the memo without a checked source**.
+How it differs from a generic deep-research tool:
+- **It questions your question first.** A short intake turns "tell me about X" into the decision or need behind it.
+- **No number reaches the memo without a checked source.** A separate critic opens the sources and throws out what doesn't hold up.
+- **It knows when to stop searching.** Gaps that only you can close (a store visit, a call, your own data) become a checklist instead of more wasted searches.
+- **One page, answer first.** Hard limit of 900 words before sources.
 
 ## Install
 
@@ -19,14 +23,16 @@ Restart Claude Code if the skill doesn't appear right away.
 
 | Command | What happens |
 |---------|--------------|
-| `/consult` | **Deep mode:** a short diagnostic interview, a reframed question, then the firm recommends a deliverable |
-| `/consult quick competitor-teardown` | **Quick mode:** 5 questions and straight to research |
+| `/consult` | **Deep mode:** a short interview sharpens your question, then the firm picks a deliverable |
+| `/consult quick custom-research Is intermittent fasting better than calorie counting for weight loss?` | **Quick mode, any topic:** a few questions, a research plan to confirm, then research |
+| `/consult quick competitor-teardown` | **Quick mode, business fast path** |
 
 Depending on your Claude Code version, the command may appear as `/consult:consult`.
 
 ### Deliverables
 | id | Answers |
 |----|---------|
+| `custom-research` | **Any question on any topic**: technology, science, health, policy, law, finance, history, or a personal decision. The firm designs 3–4 research workstreams for your question. |
 | `competitor-teardown` | Who do I really compete with, how do they win, and where can I beat them? |
 | `market-entry-check` | Should I enter this market, location, segment or product line: go, no-go, or test first? |
 | `pricing-review` | Are my prices and packages right? |
@@ -35,16 +41,20 @@ Depending on your Claude Code version, the command may appear as `/consult:consu
 ## How it works
 
 ```
-Owner ─▶ Intake (deep interview or quick form) ─▶ Deliverable template
-      ─▶ Analysts in parallel (haiku, web research, sourced evidence ledgers)
-      ─▶ Critic (sonnet, opens sources to check claims, ≤1 revision round)
-      ─▶ Partner (opus, 2-page decision memo)
-      ─▶ engagements/<date>-<slug>/memo.md
+You ─▶ Intake (deep interview or quick form) + your evidence pack
+    ─▶ Deliverable, or a custom research plan you confirm
+    ─▶ Analysts in parallel (haiku, web research, sourced evidence ledgers)
+    ─▶ Critic (sonnet): checks sources, tags each gap "researchable" or "only you can close it"
+    ─▶ One revision round, only for researchable gaps
+    ─▶ Partner (opus): ≤900-word memo + "close the gaps yourself" checklist
+    ─▶ engagements/<date>-<slug>/memo.md
 ```
 
-Each engagement saves its brief, evidence ledgers, critic review and memo in `engagements/` in your working directory, and logs a line to `engagements/log.md` (verdict, evidence strength, searches used) so you can track quality and cost over time.
+Each engagement saves its brief, research plan, evidence ledgers, critic reviews and memo in `engagements/` in your working directory, and logs a row to `engagements/log.md` so you can track quality and cost over time.
 
-> **Privacy:** `engagements/` holds real business details. Keep it out of version control. This repo's `.gitignore` already excludes it.
+> **Privacy:** `engagements/` holds your questions and any details you share. Keep it out of version control; this repo's `.gitignore` already excludes it.
+
+> **Health, legal and financial topics:** memos are research, not professional advice, and say so.
 
 ## Repository layout
 
@@ -52,13 +62,14 @@ Each engagement saves its brief, evidence ledgers, critic review and memo in `en
 |------|------|
 | `.claude-plugin/plugin.json` | Plugin manifest |
 | `.claude-plugin/marketplace.json` | Lets others install the plugin from this repo |
-| `skills/consult/SKILL.md` | Orchestrator: stages, modes, revision loop |
-| `skills/consult/intake.md` | Diagnostic interview guide |
-| `skills/consult/deliverables/*.md` | Quick-form questions, workstreams, research budgets, critic checklist, memo template |
+| `skills/consult/SKILL.md` | Orchestrator: stages, modes, budgets, revision rules |
+| `skills/consult/intake.md` | Diagnostic interview guide (business and general probes) |
+| `skills/consult/deliverables/custom-research.md` | Any-topic deliverable: planning rules, source guide by topic type, critic checklist, memo template |
+| `skills/consult/deliverables/*.md` | Business fast paths: questions, workstreams, budgets, checklist, memo template |
 | `agents/consult-analyst.md` | Researches one workstream and writes a sourced ledger |
-| `agents/consult-critic.md` | Fact-checks ledgers and returns PASS or REVISE |
-| `agents/consult-partner.md` | Writes the decision memo |
-| `docs/ideas/ai-consulting-firm.md` | Product one-pager: assumptions, MVP scope, what we're not doing |
+| `agents/consult-critic.md` | Fact-checks ledgers, tags gaps, returns PASS or REVISE |
+| `agents/consult-partner.md` | Writes the memo |
+| `docs/ideas/ai-consulting-firm.md` | Product one-pager: assumptions, scope, what we're not doing |
 
 ## Develop locally
 
@@ -68,24 +79,26 @@ Clone the repo and load it as a local plugin:
 claude --plugin-dir ./Research-Tool
 ```
 
-### Add a deliverable
-Copy a file in `skills/consult/deliverables/`, change its questions, workstreams, budgets, checklist and template, then add its id to the list in `skills/consult/SKILL.md`. Bump `version` in `.claude-plugin/plugin.json` and `marketplace.json` so users get the update.
+### Add a fast-path deliverable
+Copy a file in `skills/consult/deliverables/`, change its questions, workstreams, budgets, checklist and template, then add it to the Deliverables table in `skills/consult/SKILL.md`. Bump `version` in `.claude-plugin/plugin.json` and `marketplace.json` so users get the update.
 
-## Status
+## Status and test history
 
-Early prototype (v0.2.0). See the assumptions in [docs/ideas/ai-consulting-firm.md](docs/ideas/ai-consulting-firm.md).
+Prototype, v0.3.0.
 
-**First test (Oct 2026):** a Competitor Teardown for a fictional specialty coffee shop in Ho Chi Minh City, researched against real competitors.
-- The critic caught real errors without any being planted: a branch in the wrong district, two different shops with the same name merged into one, prices from 2016–2021 presented as current, and a competitor website that looked compromised.
-- The weak point is data access, not the agents. Small local markets have little current public data, and the best sources (Facebook, Google Maps reviews, delivery apps) are hard for agents to reach.
+| Version | Test | What we learned |
+|---------|------|-----------------|
+| v0.1.0 | Competitor Teardown for a fictional coffee shop in Ho Chi Minh City, against real competitors | The critic caught real errors (wrong district, two shops merged, stale prices, a compromised website). Memo too long (1,595 words). Local data thin. |
+| v0.2.0 | Same test, with a client evidence pack and bigger budgets | Memo 891 words; nearby competitors found on the first pass; the client's own numbers made the advice concrete. But about 2× the searches, mostly spent proving current prices aren't online. |
 
-**Changes in v0.2.0 based on that test:**
-- Quick mode requires competitor links, and every engagement asks the owner for a 5-minute evidence pack (links, menu photos, known prices).
-- Budgets are 1.5× for local markets, failed page loads don't count against the budget, and the revision round gets a full budget instead of half.
-- Analysts prefer sources from the last 24 months, check each branch separately, never merge similarly named businesses, and drop sites that look compromised.
-- The critic always produces "safe to use", "must not be used" and "open gaps" lists, and the partner writes only from those lists.
-- Memos have a hard limit of 900 words before Sources, and the engagement lead checks every memo before it's delivered.
-- The skill falls back to general-purpose agents when the plugin's own agents aren't available.
+**v0.3.0 changes:**
+- **Any topic:** new `custom-research` deliverable with a confirmed research plan and a source guide per topic type (business, technology, science/health, policy/law, finance, history, personal decisions). Intake, agents and memo are topic-neutral.
+- **Stop searching for what isn't online:** the critic tags each gap as researchable or client/field-only, and the revision round only chases researchable gaps (or is skipped).
+- **"Close the gaps yourself"** checklist in every memo.
+- **Competitor Teardown** now requires competitor prices or menu photos (or an explicit "I don't know") and asks for the client's address.
+- Professional-advice line for health, legal and financial memos.
+
+`custom-research` is new in v0.3.0 and hasn't been tested on a real engagement yet.
 
 ## License
 

@@ -25,7 +25,7 @@ All three directions run on the same parts and differ only in mode: `deep` (full
 
 ## Not Doing (and Why)
 - **A web app / SaaS UI** — learn what to automate by running it as a service first.
-- **Open-ended "research anything" mode** — that is exactly where ChatGPT Deep Research wins; fixed deliverables are the differentiation.
+- ~~**Open-ended "research anything" mode**~~ — **Revised in v0.3.0 (2026-10-24):** any-topic research is now supported through `custom-research`, but not as an open chat box. It keeps what differentiates the firm from generic deep research: intake that sharpens the question, a research plan the client confirms, critic fact-checking, gap tagging, and a short answer-first memo. The business deliverables stay as fast paths.
 - **Competitor watch / recurring briefings** — good subscription idea, but it is a second product; revisit after 10 paid reports.
 - **Selling to agencies (white-label)** — distribution play for later; first prove owners act on the memos.
 - **Paid data sources (Similarweb, Ahrefs, etc.)** — budget constraint; test how far public data goes first.
