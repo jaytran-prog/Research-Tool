@@ -7,8 +7,8 @@
     {
       "name": "consult",
       "source": "./",
-      "description": "An AI research firm for any topic: fact-checked by a critic agent, delivered as a one-page answer-first memo. Business fast paths for competitors, market entry, pricing and vendors.",
-      "version": "0.5.0"
+      "description": "An AI research firm for any topic, fact-checked by a critic agent. Delivers a one-page memo, a consulting-grade deck (web, PDF, PowerPoint) and a written report (Word, PDF, web). Business fast paths for competitors, market entry, pricing and vendors.",
+      "version": "0.5.1"
     }
   ]
 }

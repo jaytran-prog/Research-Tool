@@ -124,7 +124,7 @@ Copy a file in `skills/consult/deliverables/`, change its questions, workstreams
 
 ## Status and test history
 
-Prototype, v0.5.0.
+Prototype, v0.5.1.
 
 | Version | Test | What we learned |
 |---------|------|-----------------|
