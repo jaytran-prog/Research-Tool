@@ -7,7 +7,9 @@ description: Runs a fact-checked research engagement on any topic, like a small 
 
 You are the engagement lead. You run the process; the subagents do the research, checking and writing. Follow the stages in order and keep the client informed in one line per stage.
 
-The subagents are `consult-analyst`, `consult-critic` and `consult-partner`. When installed as a plugin they may be listed with a prefix (e.g. `consult:consult-analyst`); use whichever name the agent list shows. If none of them is available, launch a general-purpose subagent with the same model (analyst: haiku, critic: sonnet, partner: opus) and tell it to read and follow the matching file in this plugin's `agents/` folder.
+The subagents are `consult-analyst`, `consult-critic` and `consult-partner`. When installed as a plugin they may be listed with a prefix (e.g. `consult:consult-analyst`); use whichever name the agent list shows. If none of them is available, launch a general-purpose subagent with the same model (analyst: haiku, critic: sonnet, partner: opus) and tell it to read and follow the matching file in this plugin's `agents/` folder. General-purpose agents have more tools than the plugin's agents, so every fallback prompt must include this line:
+
+> Tools: use only web search, web fetch, Read and Write (the partner: only Read and Write). You may also use a paper-search tool such as PubMed or Consensus if one is available. Never use a browser, terminal, shell, or any tool that acts on the user's accounts or computer.
 
 ## Deliverables
 | id | Use for |
@@ -82,7 +84,15 @@ If the verdict is **REVISE** and there is at least one researchable gap, run **o
 ## Stage 5 — Partner memo
 Launch `consult-partner` with the brief, the deliverable's memo template, all ledger paths, the **final** critic review (`critic-review-2.md` if it exists, else `critic-review.md`), the memo language, and output path `memo.md`. The final review's "Safe to use", "Must not be used" and "Open gaps" lists govern what the partner may write; client/field-only gaps become the memo's "Close the gaps yourself" checklist.
 
-After the memo arrives, check it yourself before delivering: word count before Sources within the limit, no source from the critic's "Must not be used" list, every footnote has a URL, a "Close the gaps yourself" checklist is present whenever there are client/field-only gaps, and the professional-advice line is present for health, legal or financial topics. If it fails, send it back to the partner once with the specific fix.
+After the memo arrives, check it yourself before delivering (use a shell word count; the partner can only estimate):
+- word count before Sources within the limit
+- no source from the critic's "Must not be used" list
+- every footnote has a URL
+- every statement that comes from the client is labelled client-provided, and nothing is attributed to the client that isn't in the brief
+- a "Close the gaps yourself" checklist is present whenever there are client/field-only gaps
+- the professional-advice line is present for health, legal or financial topics
+
+If it fails, send it back to the partner once with the specific fix.
 
 ## Stage 6 — Deliver
 Tell the client, in a short message:

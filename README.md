@@ -84,12 +84,13 @@ Copy a file in `skills/consult/deliverables/`, change its questions, workstreams
 
 ## Status and test history
 
-Prototype, v0.3.0.
+Prototype, v0.3.1.
 
 | Version | Test | What we learned |
 |---------|------|-----------------|
 | v0.1.0 | Competitor Teardown for a fictional coffee shop in Ho Chi Minh City, against real competitors | The critic caught real errors (wrong district, two shops merged, stale prices, a compromised website). Memo too long (1,595 words). Local data thin. |
 | v0.2.0 | Same test, with a client evidence pack and bigger budgets | Memo 891 words; nearby competitors found on the first pass; the client's own numbers made the advice concrete. But about 2× the searches, mostly spent proving current prices aren't online. |
+| v0.3.0 | Custom Research on a health question: intermittent fasting vs calorie counting | Strong sources (BMJ 2025 review of 99 trials, Cochrane 2026, a 12-month *Annals* trial). The critic caught a missed key trial, misread figures and an invented "client-named" trial; an analyst corrected the critic's p-value. Memo 883 words, mixed evidence, with a professional-advice line and a do-it-yourself checklist. Problems: fallback agents used the browser, about 12 fetches blocked by journal and guideline sites, one analyst gave up early. |
 
 **v0.3.0 changes:**
 - **Any topic:** new `custom-research` deliverable with a confirmed research plan and a source guide per topic type (business, technology, science/health, policy/law, finance, history, personal decisions). Intake, agents and memo are topic-neutral.
@@ -98,7 +99,13 @@ Prototype, v0.3.0.
 - **Competitor Teardown** now requires competitor prices or menu photos (or an explicit "I don't know") and asks for the client's address.
 - Professional-advice line for health, legal and financial memos.
 
-`custom-research` is new in v0.3.0 and hasn't been tested on a real engagement yet.
+**v0.3.1 changes (from the health test):**
+- Fallback agents are told to use only search, fetch, read and write (plus paper search if available), never a browser or terminal.
+- Analysts try open copies of blocked pages (PubMed Central, Europe PMC, DOI, PubMed abstract, repositories; guideline PDFs and journal summaries) before giving up, then hand the link to the client.
+- Analysts must make at least two attempts before calling something "not found", and can't leave half their budget unused with questions open.
+- Nothing may be attributed to the client unless it's in the brief; full text beats abstracts when they disagree.
+- The critic checks effort, attribution and version mismatches, and runs a quick check for key studies the analysts missed.
+- The lead check counts words with a real tool and checks client-provided labels.
 
 ## License
 
