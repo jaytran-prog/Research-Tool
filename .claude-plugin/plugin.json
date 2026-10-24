@@ -1,6 +1,6 @@
 {
   "name": "consult",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "An AI research firm for any topic: question-sharpening intake, a research plan, parallel analyst research, critic fact-check, and a short answer-first memo that states its unknowns. Includes business fast paths (competitor, market entry, pricing, vendor).",
   "author": {
     "name": "jaytran-prog"

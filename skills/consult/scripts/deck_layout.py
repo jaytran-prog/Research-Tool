@@ -452,9 +452,14 @@ def ex_roadmap(x, y, w, h, ex):
     label_w = 190
     x0, tw = x + label_w, w - label_w
     uw = tw / units
-    head_h, gate_h = 30, 46
+    gates = sorted(ex.get("gates", []), key=lambda g: g["at"])
+    # Narrow exhibits or many gates: number the gates on the chart and list them underneath.
+    legend = len(gates) >= 3 or w < 900
+    legend_cols = 1 if w < 700 else 2
+    head_h = 30
+    gate_h = (math.ceil(len(gates) / legend_cols) * 34 + 14) if legend else 46
     lane_h = min(96, (h - head_h - gate_h) / max(1, len(lanes)))
-    step = 1 if units <= 12 else (2 if units <= 24 else 4)
+    step = next((s for s in (1, 2, 4, 8) if uw * s >= 56), 8)
     prims = []
     for u in range(start, end + 1, step):
         prims.append(T(x0 + (u - start) * uw, y, uw * step, 20, f"{ex.get('unit', 'Week')} {u}", size=11,
@@ -493,9 +498,24 @@ def ex_roadmap(x, y, w, h, ex):
                                align="right"))
                 occupied = bx + bw
     lanes_bottom = y + head_h + len(lanes) * lane_h
+    if legend:
+        col_w = w / legend_cols
+        for k, g in enumerate(gates, 1):
+            gx = min(x0 + (g["at"] - start + 1) * uw, x + w - 2)
+            prims.append(L(gx, y + head_h - 4, gx, lanes_bottom + 6, color="gate", w=2, dash=True))
+            prims.append(E(gx - 10, y + head_h - 14, 20, 20, fill="gate"))
+            prims.append(T(gx - 10, y + head_h - 14, 20, 20, str(k), size=11, bold=True, color="white",
+                           align="center", valign="middle"))
+            row, colk = (k - 1) // legend_cols, (k - 1) % legend_cols
+            lx, ly = x + colk * col_w, lanes_bottom + 14 + row * 34
+            prims.append(E(lx, ly, 20, 20, fill="gate"))
+            prims.append(T(lx, ly, 20, 20, str(k), size=11, bold=True, color="white", align="center", valign="middle"))
+            prims.append(T(lx + 28, ly - 1, col_w - 40, 32, g.get("label", ""), size=12, bold=True, color="gate",
+                           lh=1.2))
+        return prims
     last_x = -999
     level = 0
-    for g in sorted(ex.get("gates", []), key=lambda g: g["at"]):
+    for g in gates:
         gx = min(x0 + (g["at"] - start + 1) * uw, x + w - 2)
         prims.append(L(gx, y + head_h - 4, gx, lanes_bottom + 6, color="gate", w=2, dash=True))
         prims.append(DIAMOND(gx - 8, y + head_h - 12, 16, 16, fill="gate"))

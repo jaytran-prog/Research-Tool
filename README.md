@@ -8,6 +8,9 @@ How it differs from a generic deep-research tool:
 - **It knows when to stop searching.** Gaps that only you can close (a store visit, a call, your own data) become a checklist instead of more wasted searches.
 - **One page, answer first.** Hard limit of 900 words before sources.
 - **A deck you can present.** Insight-first slides with action titles, honest exhibits, evidence badges and an action plan — as a web deck, PDF and editable PowerPoint, cut for your team, investors or your own clients.
+- **A report you can send.** A 1,800–3,000-word insights article with numbered exhibits and cited prose — as Word, PDF and a web article.
+
+**You choose the output at the start:** memo only · memo + deck · memo + written report · all three — and which formats of each. Any format can be re-rendered later without new research.
 
 ## Install
 
@@ -67,6 +70,16 @@ python3 skills/consult/scripts/render_deck.py engagements/<slug>/deck.json --for
 
 PDF needs Chrome or Chromium; PowerPoint needs `pip install python-pptx`. Brand themes are small JSON files in `skills/consult/scripts/themes/` (colours and fonts).
 
+## Written reports
+
+The written report reads like a consulting insights article: an insight headline and standfirst, an "at a glance" box, an introduction that leads with the complication, sections whose headings are conclusions, cited prose that states evidence strength in words, 4–7 numbered exhibits (the same chart library as the deck), a "what to do" section with the plan and decision gates, "what we don't know", "about this research" and sources.
+
+```
+python3 skills/consult/scripts/render_report.py engagements/<slug>/report.json --formats docx,pdf,html
+```
+
+Word needs `pip install python-docx`; charts in Word are rendered as crisp images through Chrome (Pillow required). The report reuses the deck's storyline and exhibits when both are produced, so they always agree.
+
 Each engagement saves its brief, research plan, evidence ledgers, critic reviews and memo in `engagements/` in your working directory, and logs a row to `engagements/log.md` so you can track quality and cost over time.
 
 > **Privacy:** `engagements/` holds your questions and any details you share. Keep it out of version control; this repo's `.gitignore` already excludes it.
@@ -88,7 +101,10 @@ Each engagement saves its brief, research plan, evidence ledgers, critic reviews
 | `agents/consult-partner.md` | Writes the memo |
 | `agents/consult-storyliner.md` | Ghost deck before research; final insight-first deck spec after |
 | `agents/consult-planner.md` | Action plan: phases, owners, KPIs, gates, risks |
-| `agents/consult-deck-reviewer.md` | Partner review of the deck before delivery |
+| `agents/consult-deck-reviewer.md` | Partner review of the deck or written report before delivery |
+| `agents/consult-writer.md` | Writes the long-form report |
+| `skills/consult/report/guide.md` | Report style rules, structure and `report.json` format |
+| `skills/consult/scripts/render_report.py` | Validates and renders reports (Word, PDF, web) |
 | `skills/consult/deck/storyline.md` | Insight-first rules, action titles, slide skeleton, audience cuts |
 | `skills/consult/deck/spec.md` | `deck.json` format, exhibit library and data rules |
 | `skills/consult/scripts/render_deck.py` | Validates and renders decks (HTML, PDF, PowerPoint) |
@@ -108,7 +124,7 @@ Copy a file in `skills/consult/deliverables/`, change its questions, workstreams
 
 ## Status and test history
 
-Prototype, v0.4.0.
+Prototype, v0.5.0.
 
 | Version | Test | What we learned |
 |---------|------|-----------------|
@@ -122,6 +138,13 @@ Prototype, v0.4.0.
 - **"Close the gaps yourself"** checklist in every memo.
 - **Competitor Teardown** now requires competitor prices or menu photos (or an explicit "I don't know") and asks for the client's address.
 - Professional-advice line for health, legal and financial memos.
+
+**v0.5.0 — written reports:**
+- New `consult-writer` agent and report guide: a long-form insights article built from the same verified evidence, reusing the deck's storyline and exhibits.
+- Renderer for Word (with chart images, superscript citations, footers), PDF and web article; the deck reviewer now also reviews reports.
+- Users pick memo only, memo + deck, memo + report, or all three at intake.
+- Roadmaps with 3+ decision gates or at narrow widths use numbered gate markers with a legend.
+- Tested on the health engagement: about 2,980 words, 6 exhibits, rendered to Word, PDF and web.
 
 **v0.4.0 — research decks:**
 - Ghost deck before research: the storyline as falsifiable hypotheses; analysts must search for evidence against each one, and the critic flags one-sided research.
