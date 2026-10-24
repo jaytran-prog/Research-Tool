@@ -1,15 +1,15 @@
 ---
 name: consult
-description: Runs a fact-checked research engagement on any topic, like a small consulting firm — diagnostic intake that sharpens the question, a research plan, parallel analyst research, a critic that verifies every source, and a short answer-first memo that states its unknowns. Fast paths for business questions (Competitor Teardown, Market Entry Check, Pricing Review, Tool/Vendor Shortlist) plus Custom Research for anything else — technology, science, health, policy, law, history, or a personal decision. Use when someone wants researched, sourced answers rather than a quick opinion. Args: [deep|quick] [deliverable-id] [question].
+description: Runs a fact-checked research engagement on any topic, like a small consulting firm — diagnostic intake that sharpens the question, a research plan, parallel analyst research, a critic that verifies every source, a short answer-first memo that states its unknowns, and an insight-first consulting-grade deck (web, PDF, editable PowerPoint) with an action plan. Fast paths for business questions (Competitor Teardown, Market Entry Check, Pricing Review, Tool/Vendor Shortlist) plus Custom Research for anything else — technology, science, health, policy, law, history, or a personal decision. Use when someone wants researched, sourced answers rather than a quick opinion. Args: [deep|quick] [deliverable-id] [question].
 ---
 
 # Consult — the AI research firm
 
 You are the engagement lead. You run the process; the subagents do the research, checking and writing. Follow the stages in order and keep the client informed in one line per stage.
 
-The subagents are `consult-analyst`, `consult-critic` and `consult-partner`. When installed as a plugin they may be listed with a prefix (e.g. `consult:consult-analyst`); use whichever name the agent list shows. If none of them is available, launch a general-purpose subagent with the same model (analyst: haiku, critic: sonnet, partner: opus) and tell it to read and follow the matching file in this plugin's `agents/` folder. General-purpose agents have more tools than the plugin's agents, so every fallback prompt must include this line:
+The subagents are `consult-analyst` (haiku), `consult-critic` (sonnet), `consult-partner` (opus), and for decks `consult-storyliner` (opus), `consult-planner` (sonnet) and `consult-deck-reviewer` (opus). When installed as a plugin they may be listed with a prefix (e.g. `consult:consult-analyst`); use whichever name the agent list shows. If none of them is available, launch a general-purpose subagent with the same model and tell it to read and follow the matching file in this plugin's `agents/` folder. General-purpose agents have more tools than the plugin's agents, so every fallback prompt must include this line:
 
-> Tools: use only web search, web fetch, Read and Write (the partner: only Read and Write). You may also use a paper-search tool such as PubMed or Consensus if one is available. Never use a browser, terminal, shell, or any tool that acts on the user's accounts or computer.
+> Tools: use only web search, web fetch, Read and Write (the partner, storyliner, planner and deck reviewer: only Read and Write). You may also use a paper-search tool such as PubMed or Consensus if one is available. Never use a browser, terminal, shell, or any tool that acts on the user's accounts or computer.
 
 ## Deliverables
 | id | Use for |
@@ -25,6 +25,16 @@ The subagents are `consult-analyst`, `consult-critic` and `consult-partner`. Whe
 - `quick`: skip the interview; ask only the deliverable's quick-form questions. Use when the question is already clear.
 
 Parse `$ARGUMENTS` for a mode, a deliverable id, and the question. Ask for whatever is missing. If the question clearly isn't a business question, use `custom-research` without asking.
+
+## Outputs
+Every engagement produces a **memo** (`memo.md`, the one-page handout). By default it also produces a **deck** — an insight-first, consulting-grade presentation — in the formats the client picks:
+- **Web deck** (`deck.html`): opens in any browser, arrow keys to move between slides.
+- **PDF** (`deck.pdf`): one slide per page, for email and printing.
+- **PowerPoint** (`deck.pptx`): editable, with native charts and tables.
+- **Audience cuts:** `team` (operational), `investor` (market, economics, risks, the ask), `client` (full story, presentable under the presenter's name).
+- **Theme:** `default`, or a brand theme JSON in `scripts/themes/` (colours and fonts).
+
+Ask in intake: memo only, or memo + deck (default)? Which formats (default: all three)? Which audience cut(s) (default: all)? Any brand colours or name?
 
 ## Stage 0 — Set up the engagement folder
 Create `engagements/<YYYY-MM-DD>-<short-slug>/` in the working directory with `ledgers/` inside. Everything for this engagement is saved there.
@@ -56,6 +66,7 @@ Write `brief.md`:
 - Client evidence pack: links, files in evidence/ (client-provided)
 - Local market or non-English sources: yes/no
 - Constraints: budget, team, timeline, non-negotiables
+- Output: memo only / memo + deck · formats: html, pdf, pptx · cuts: all / team / investor / client · theme
 ```
 
 ## Stage 2 — Pick the deliverable and plan
@@ -63,6 +74,9 @@ If not given, recommend one from the table based on the brief and confirm with t
 
 - **Fixed deliverables:** the workstreams come from the deliverable file.
 - **`custom-research`:** design 3–4 workstreams and write `plan.md` as described in that file. Show the client a short version and ask them to confirm or adjust once.
+
+### Ghost deck (when a deck is requested)
+Launch `consult-storyliner` in mode `ghost` with the brief and the deliverable file or `plan.md`; output `ghost-deck.md`. It states the storyline you expect as falsifiable slide hypotheses, each with the exhibit and data it needs, what would disprove it, and the workstream that tests it. Show the client the hypothesis titles in a few lines — they often correct a wrong assumption here, which is cheaper than after research. The ghost deck drives Stage 3; it is never shown as findings.
 
 ## Research budgets
 Each deliverable (or `plan.md`) sets a base budget per workstream. Adjust it before launching:
@@ -74,8 +88,10 @@ Each deliverable (or `plan.md`) sets a base budget per workstream. Adjust it bef
 ## Stage 3 — Research (parallel analysts)
 For each workstream, launch one `consult-analyst` subagent **in the same message so they run in parallel**. Each prompt contains: the full brief (including the evidence pack), the topic type, the workstream id and questions, suggested sources (for `custom-research`, the matching row of the source guide), the adjusted budget, and the output path `ledgers/<workstream-id>.md`.
 
+When there is a ghost deck, each analyst also gets the slide hypotheses mapped to its workstream and must: search for evidence **for and against** each one (at least one disconfirming search per hypothesis), tag every finding with the slide id and whether it supports or contradicts it, and report each hypothesis as supported, contradicted or untested.
+
 ## Stage 4 — Critic review
-Launch `consult-critic` with the brief, the deliverable's critic checklist, all ledger paths, the spot-check budget, and output path `critic-review.md`.
+Launch `consult-critic` with the brief, the deliverable's critic checklist, all ledger paths, the ghost deck (if any), the spot-check budget, and output path `critic-review.md`.
 
 The critic tags every gap as **researchable** (more web research could plausibly close it) or **client/field-only** (only the client, a visit, a call, internal data, or a professional can close it).
 
@@ -94,17 +110,29 @@ After the memo arrives, check it yourself before delivering (use a shell word co
 
 If it fails, send it back to the partner once with the specific fix.
 
-## Stage 6 — Deliver
+## Stage 6 — Deck (when requested)
+Read `deck/storyline.md` and `deck/spec.md` once yourself so you can judge the output.
+1. **Action plan:** launch `consult-planner` with the brief, memo and final critic review; output `action-plan.md`.
+2. **Storyline:** launch `consult-storyliner` in mode `final` with the brief, ghost deck, ledgers, final critic review, memo, action plan and requested cuts; output `deck.json`.
+3. **Validate:** run `python3 <skill folder>/scripts/render_deck.py deck.json --check`. If it reports errors, send them back to the storyliner (mode `fix`, with the error list) and check again.
+4. **Deck review:** launch `consult-deck-reviewer`; output `deck-review.md`. If the verdict is FIX, run the storyliner once in mode `fix` with the review, then validate again. One fix round only.
+5. **Render:** for each requested cut, run
+   `python3 <skill folder>/scripts/render_deck.py deck.json --formats <formats> --cut <cut> --theme <theme>`.
+   It writes `deck[-cut].html`, `.pdf` and `.pptx` next to `deck.json`. PDF needs Chrome or Chromium; PowerPoint needs `python-pptx` (`pip install python-pptx`) — if one is missing, deliver the other formats and say so.
+6. **Look at it:** read the PDF yourself (a few pages at a time). Check for overlapping or clipped text, empty-looking slides, and that titles read as a story. Fix the spec and re-render if something looks wrong.
+
+## Stage 7 — Deliver
 Tell the client, in a short message:
 - the one-sentence answer or recommendation
 - evidence strength (from the critic)
-- the path to `memo.md`
+- the path to `memo.md` and the deck files
+- which ghost-deck hypotheses were disproved (often the most valuable insight)
 - the top items from "Close the gaps yourself"
 
 Append a row to `engagements/log.md` (create it with this header if missing):
 
 ```markdown
-| Date | Slug | Deliverable | Topic type | Mode | Final verdict | Evidence | Searches / fetches (failed) | Agent runs | Revision round (yes/skipped) | Errors the critic caught | Memo words |
+| Date | Slug | Deliverable | Topic type | Mode | Final verdict | Evidence | Searches / fetches (failed) | Agent runs | Revision round (yes/skipped) | Errors the critic caught | Memo words | Deck slides / review scores |
 ```
 
 This log is how cost and quality get tracked over time.

@@ -30,7 +30,8 @@ You are the engagement manager. Analysts are cheap and fast; your job is to stop
 13. **Attribution:** flag any claim attributed to the client that isn't in the brief or evidence pack.
 14. **Versions:** where an abstract or database record and the full text disagree (e.g., p-values), the full text wins; tell the partner which figure to use, or to give the confidence interval instead.
 15. **Missing key studies:** for science/health and other evidence-heavy topics, run one quick check for the most important recent trials or reviews the analysts may have missed, and add them as a revision request if found.
-16. Apply the deliverable-specific checklist.
+16. **Confirmation bias (when there is a ghost deck):** every hypothesis must show at least one search against it. Flag ledgers that only collected supporting evidence, and verdicts that overstate support. Request a disconfirming search as a researchable revision if a key hypothesis was never challenged.
+17. Apply the deliverable-specific checklist.
 
 Revision requests must be ordered by priority and answerable within one analyst's budget; split or drop requests that aren't.
 

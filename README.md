@@ -7,6 +7,7 @@ How it differs from a generic deep-research tool:
 - **No number reaches the memo without a checked source.** A separate critic opens the sources and throws out what doesn't hold up.
 - **It knows when to stop searching.** Gaps that only you can close (a store visit, a call, your own data) become a checklist instead of more wasted searches.
 - **One page, answer first.** Hard limit of 900 words before sources.
+- **A deck you can present.** Insight-first slides with action titles, honest exhibits, evidence badges and an action plan — as a web deck, PDF and editable PowerPoint, cut for your team, investors or your own clients.
 
 ## Install
 
@@ -43,12 +44,28 @@ Depending on your Claude Code version, the command may appear as `/consult:consu
 ```
 You ─▶ Intake (deep interview or quick form) + your evidence pack
     ─▶ Deliverable, or a custom research plan you confirm
-    ─▶ Analysts in parallel (haiku, web research, sourced evidence ledgers)
-    ─▶ Critic (sonnet): checks sources, tags each gap "researchable" or "only you can close it"
+    ─▶ Ghost deck (opus): the storyline we expect, as falsifiable slide hypotheses
+    ─▶ Analysts in parallel (haiku): research for AND against each hypothesis, sourced ledgers
+    ─▶ Critic (sonnet): checks sources, flags one-sided research, tags each gap
     ─▶ One revision round, only for researchable gaps
     ─▶ Partner (opus): ≤900-word memo + "close the gaps yourself" checklist
-    ─▶ engagements/<date>-<slug>/memo.md
+    ─▶ Planner (sonnet): phases, owners, KPIs, decision gates, risks
+    ─▶ Storyliner (opus): insight-first deck.json — disproved hypotheses become insights
+    ─▶ Deck review (opus): titles tell the story, exhibits prove titles, every number sourced
+    ─▶ Renderer: deck.html · deck.pdf · deck.pptx (per audience cut and theme)
 ```
+
+## Decks
+
+Every slide follows consulting conventions: a full-sentence **action title**, one exhibit that proves it, a **"so what"** bar, key takeaways, sources and an **evidence badge** (strong / mixed / weak). The exhibit library covers bar charts, forest plots (effect sizes with confidence intervals), hero numbers, tables, 2×2 matrices, options with Harvey balls, issue trees, roadmaps with decision gates, KPI scorecards and a "what we know vs. assume" evidence map. A chart is only drawn when its data rule is met; otherwise the deck uses an honest qualitative exhibit, and estimates are hatched.
+
+Render any deck yourself:
+
+```
+python3 skills/consult/scripts/render_deck.py engagements/<slug>/deck.json --formats html,pdf,pptx --cut investor --theme default
+```
+
+PDF needs Chrome or Chromium; PowerPoint needs `pip install python-pptx`. Brand themes are small JSON files in `skills/consult/scripts/themes/` (colours and fonts).
 
 Each engagement saves its brief, research plan, evidence ledgers, critic reviews and memo in `engagements/` in your working directory, and logs a row to `engagements/log.md` so you can track quality and cost over time.
 
@@ -69,6 +86,13 @@ Each engagement saves its brief, research plan, evidence ledgers, critic reviews
 | `agents/consult-analyst.md` | Researches one workstream and writes a sourced ledger |
 | `agents/consult-critic.md` | Fact-checks ledgers, tags gaps, returns PASS or REVISE |
 | `agents/consult-partner.md` | Writes the memo |
+| `agents/consult-storyliner.md` | Ghost deck before research; final insight-first deck spec after |
+| `agents/consult-planner.md` | Action plan: phases, owners, KPIs, gates, risks |
+| `agents/consult-deck-reviewer.md` | Partner review of the deck before delivery |
+| `skills/consult/deck/storyline.md` | Insight-first rules, action titles, slide skeleton, audience cuts |
+| `skills/consult/deck/spec.md` | `deck.json` format, exhibit library and data rules |
+| `skills/consult/scripts/render_deck.py` | Validates and renders decks (HTML, PDF, PowerPoint) |
+| `skills/consult/scripts/themes/` | Visual themes |
 | `docs/ideas/ai-consulting-firm.md` | Product one-pager: assumptions, scope, what we're not doing |
 
 ## Develop locally
@@ -84,7 +108,7 @@ Copy a file in `skills/consult/deliverables/`, change its questions, workstreams
 
 ## Status and test history
 
-Prototype, v0.3.1.
+Prototype, v0.4.0.
 
 | Version | Test | What we learned |
 |---------|------|-----------------|
@@ -98,6 +122,12 @@ Prototype, v0.3.1.
 - **"Close the gaps yourself"** checklist in every memo.
 - **Competitor Teardown** now requires competitor prices or menu photos (or an explicit "I don't know") and asks for the client's address.
 - Professional-advice line for health, legal and financial memos.
+
+**v0.4.0 — research decks:**
+- Ghost deck before research: the storyline as falsifiable hypotheses; analysts must search for evidence against each one, and the critic flags one-sided research.
+- New agents: storyliner (ghost deck and final deck), planner (action plan), deck reviewer (partner review).
+- Deck spec, exhibit library with data rules, and a renderer for web deck, PDF and editable PowerPoint (native charts and tables), with audience cuts and themes.
+- Tested on the health engagement: 14-slide deck (13 in the investor cut). The deck review caught an overclaiming title, unlabelled client facts, an overstated safety line, a miscounted roadmap and an evidence grade set too high; all 10 fixes were applied before rendering. The ghost-deck stage itself is not yet tested end to end.
 
 **v0.3.1 changes (from the health test):**
 - Fallback agents are told to use only search, fetch, read and write (plus paper search if available), never a browser or terminal.

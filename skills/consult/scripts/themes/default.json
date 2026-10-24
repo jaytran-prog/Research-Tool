@@ -1,0 +1,25 @@
+{
+  "name": "default",
+  "fonts": {
+    "head": "Georgia",
+    "body": "Arial",
+    "head_css": "Georgia, 'Times New Roman', serif",
+    "body_css": "'Helvetica Neue', Arial, sans-serif"
+  },
+  "colors": {
+    "ink": "#0B1F33",
+    "accent": "#2251FF",
+    "accent_mid": "#6C8CFF",
+    "accent_soft": "#E6ECFF",
+    "grey": "#8A94A6",
+    "grey_dark": "#4A5568",
+    "grey_light": "#E2E6ED",
+    "grey_bar": "#C3CAD6",
+    "bg_soft": "#F5F7FA",
+    "white": "#FFFFFF",
+    "strong": "#0E8A5F",
+    "mixed": "#C98A00",
+    "weak": "#C2410C",
+    "gate": "#C2410C"
+  }
+}
