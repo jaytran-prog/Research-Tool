@@ -44,19 +44,80 @@ Depending on your Claude Code version, the command may appear as `/consult:consu
 
 ## How it works
 
+### Your workflow
+
+```mermaid
+flowchart LR
+    A(["💬 Ask<br/>/consult"]) --> B["📝 Intake<br/>question, context,<br/>evidence pack"]
+    B --> C["✅ Choose output<br/>memo · deck · report<br/>formats · audience"]
+    C --> D["🧭 Confirm<br/>research plan and<br/>hypotheses"]
+    D --> E["⏳ Firm works<br/>~10–20 min<br/>one-line updates"]
+    E --> F(["📦 Results<br/>engagements/&lt;date&gt;-&lt;topic&gt;/"])
+    F -. "any time, no new research" .-> G["🔁 Re-render<br/>another format<br/>or audience"]
 ```
-You ─▶ Intake (deep interview or quick form) + your evidence pack
-    ─▶ Deliverable, or a custom research plan you confirm
-    ─▶ Ghost deck (opus): the storyline we expect, as falsifiable slide hypotheses
-    ─▶ Analysts in parallel (haiku): research for AND against each hypothesis, sourced ledgers
-    ─▶ Critic (sonnet): checks sources, flags one-sided research, tags each gap
-    ─▶ One revision round, only for researchable gaps
-    ─▶ Partner (opus): ≤900-word memo + "close the gaps yourself" checklist
-    ─▶ Planner (sonnet): phases, owners, KPIs, decision gates, risks
-    ─▶ Storyliner (opus): insight-first deck.json — disproved hypotheses become insights
-    ─▶ Deck review (opus): titles tell the story, exhibits prove titles, every number sourced
-    ─▶ Renderer: deck.html · deck.pdf · deck.pptx (per audience cut and theme)
+
+You make three decisions — the question, the output, and a quick check of the plan. Everything else runs on its own.
+
+### Inside the firm
+
+```mermaid
+flowchart TD
+    subgraph S1["1 · Frame"]
+        I["Intake<br/>deep interview or quick form"] --> P["Research plan<br/>or fixed deliverable"]
+        P --> G["Ghost deck · storyliner<br/>expected storyline as<br/>falsifiable hypotheses"]
+    end
+
+    subgraph S2["2 · Research and verify"]
+        G --> A1["Analyst 1"] & A2["Analyst 2"] & A3["Analyst 3"] & A4["Analyst 4"]
+        A1 & A2 & A3 & A4 --> L[("Evidence ledgers<br/>sourced, for AND against<br/>each hypothesis")]
+        L --> C{"Critic<br/>opens sources,<br/>flags bias, tags gaps"}
+        C -- "researchable gaps<br/>(one round only)" --> R["Revision round"]
+        R --> L
+        C -- "verified" --> V["Safe to use · Must not use<br/>· Open gaps"]
+    end
+
+    subgraph S3["3 · Write"]
+        V --> M["Partner<br/>one-page memo"]
+        M --> PL["Planner<br/>action plan: phases,<br/>KPIs, decision gates"]
+        PL --> SL["Storyliner<br/>insight-first deck"]
+        PL --> W["Writer<br/>long-form report"]
+    end
+
+    subgraph S4["4 · Quality gate"]
+        SL & W --> RV{"Partner review<br/>logic · honesty · insight"}
+        RV -- "FIX (one round)" --> FX["Apply exact fixes"]
+        FX --> RV2["Validate spec"]
+        RV -- "PASS" --> RV2
+    end
+
+    subgraph S5["5 · Deliver"]
+        RV2 --> O1["📄 memo.md"]
+        RV2 --> O2["📊 deck .html · .pdf · .pptx<br/>team · investor · client"]
+        RV2 --> O3["📘 report .docx · .pdf · .html"]
+    end
+
+    classDef ai fill:#E6ECFF,stroke:#2251FF,color:#0B1F33
+    classDef gate fill:#FFF4E5,stroke:#C2410C,color:#0B1F33
+    classDef out fill:#E8F5EE,stroke:#0E8A5F,color:#0B1F33
+    class G,A1,A2,A3,A4,M,PL,SL,W,R,FX ai
+    class C,RV gate
+    class O1,O2,O3 out
 ```
+
+### Who does what
+
+| Role | Model | Job | Checked by |
+|------|-------|-----|------------|
+| Engagement lead (you're talking to it) | your session | runs the stages, intake, final visual check | — |
+| Storyliner | Opus | ghost deck before research; final deck after | partner review |
+| Analysts (in parallel) | Haiku | research one workstream each, for and against every hypothesis | critic |
+| Critic | Sonnet | opens the sources, catches wrong / stale / one-sided claims, tags gaps | lead |
+| Partner | Opus | one-page memo | lead check |
+| Planner | Sonnet | action plan: phases, owners, KPIs, gates, risks | partner review |
+| Writer | Opus | long-form written report | partner review |
+| Partner review | Opus | storyline, insight, honesty, exhibits — PASS or FIX | lead |
+
+Cheap models do the volume; strong models do the judgment. Every stage that writes is checked by a different stage that didn't.
 
 ## Decks
 
